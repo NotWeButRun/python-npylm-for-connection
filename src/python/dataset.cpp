@@ -62,6 +62,22 @@ namespace npylm {
 		}
 		_avg_sentence_length = sum_sentence_length / (double)corpus->get_num_sentences();
 	}
+
+	/// deepcopy by Horie //////////////////////
+	Dataset::Dataset(const Dataset & copyee){
+		_corpus = Corpus(copyee->_corpus)
+		_dict = Dict(copyee->_dict)
+
+		_max_sentence_length = copyee._max_sentence_length
+		_avg_sentence_length = copyee._avg_sentence_length
+		_num_supervised_data = copyee._num_supervised_data
+		for (const auto& value : copyee._sentence_sequences_train)
+			_sentence_sequences_train.pushback(Sentence(*value))
+		for (const auto& value : copyee_sentence_sequences_dev)
+			_sentence_sequences_dev.pushback(Sentence(*value))
+	}
+	////////////////////////////////////////////
+
 	Dataset::~Dataset(){
 		for(int n = 0;n < _sentence_sequences_train.size();n++){
 			Sentence* sentence = _sentence_sequences_train[n];

@@ -21,6 +21,7 @@ namespace npylm {
 		std::vector<Sentence*> _sentence_sequences_train;
 		std::vector<Sentence*> _sentence_sequences_dev;
 		Dataset(Corpus* corpus, double train_split, int seed);
+		Dataset::Dataset(const Dataset & copyee); //deepcopy by Horie
 		~Dataset();
 		int get_num_sentences_train();
 		int get_num_sentences_supervised();
