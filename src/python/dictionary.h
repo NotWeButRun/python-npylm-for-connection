@@ -6,6 +6,7 @@ namespace npylm {
 	public:
 		std::unordered_set<wchar_t> _all_characters;	// すべての文字
 		Dictionary(){}
+		Dictionary(const Dictionary & copyee); //deepcopy by Horie
 		void add_character(wchar_t character);
 		int get_num_characters();
 		bool load(std::string filename);

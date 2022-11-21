@@ -6,8 +6,8 @@
 namespace npylm {
 	/// deepcopy by Horie //////////////////////
 	Corpus::Corpus(const Corpus & copyee){
-		this._sentence_str_list = copyee._sentence_str_list
-		this._word_sequence_list = copyee._word_sequence_list
+		_sentence_str_list = copyee._sentence_str_list
+		_word_sequence_list = copyee._word_sequence_list
 	}
 	////////////////////////////////////////////
 

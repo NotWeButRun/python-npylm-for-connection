@@ -7,6 +7,12 @@
 #include "dictionary.h"
 
 namespace npylm {
+	/// deepcopy by Horie //////////////////////
+	Dictionary::Dictionary(const Dictionary & copyee){
+		_all_characters = copyee._all_characters;
+	}
+	////////////////////////////////////////////
+	
 	void Dictionary::add_character(wchar_t character){
 		_all_characters.insert(character);
 	}
