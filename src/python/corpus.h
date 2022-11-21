@@ -10,6 +10,7 @@ namespace npylm {
 		std::vector<std::wstring> _sentence_str_list;
 		std::vector<std::vector<std::wstring>> _word_sequence_list;
 		Corpus(){}
+		Corpus(const Corpus & copyee); //deepcopy by Horie
 		void add_textfile(std::string filename);
 		void add_sentence(std::wstring sentence_str);
 		void add_true_segmentation(std::vector<std::wstring> &word_str_vec);		// 正解の分割を追加する

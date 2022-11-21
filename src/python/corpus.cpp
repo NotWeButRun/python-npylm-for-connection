@@ -4,6 +4,13 @@
 #include "corpus.h"
 
 namespace npylm {
+	/// deepcopy by Horie //////////////////////
+	Corpus::Corpus(const Corpus & copyee){
+		this._sentence_str_list = copyee._sentence_str_list
+		this._word_sequence_list = copyee._word_sequence_list
+	}
+	////////////////////////////////////////////
+
 	void Corpus::add_textfile(std::string filename){
 		std::wifstream ifs(filename.c_str());
 		std::wstring sentence_str;

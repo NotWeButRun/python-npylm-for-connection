@@ -33,6 +33,13 @@ namespace npylm {
 	Sentence::Sentence(std::wstring sentence, bool supervised): Sentence(sentence){
 		_supervised = supervised;
 	}
+
+	/// deepcopy by Horie //////////////////////
+	Sentence::Sentence(const Sentence & copyee){
+		Sentence(copyee._sentence_str);
+	}
+	////////////////////////////////////////////
+
 	Sentence::~Sentence(){
 		delete[] _segments;
 		delete[] _start;

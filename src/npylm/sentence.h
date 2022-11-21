@@ -17,6 +17,7 @@ namespace npylm {
 		std::wstring _sentence_str;	// 生の文データ
 		Sentence(std::wstring sentence);
 		Sentence(std::wstring sentence, bool supervised);
+		Sentence(const Sentence & copyee); //deepcopy by Horie
 		~Sentence();
 		Sentence* copy();
 		int size();
