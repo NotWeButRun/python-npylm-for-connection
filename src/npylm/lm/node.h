@@ -20,8 +20,8 @@ namespace npylm {
 		class Node { 
 			public:
 			hashmap<T, Node*> _children;				// 子の文脈木
-			hashmap<T, std::vector<int>> _arrangement;		// 客の配置 std::vector<int>のk番目の要素がテーブルkの客数を表す
-			Node<T>* _parent;								// 親ノード
+			hashmap<T, std::vector<int>> _arrangement;	// 客の配置 std::vector<int>のk番目の要素がテーブルkの客数を表す
+			Node<T>* _parent;							// 親ノード
 			int _num_tables;							// 総テーブル数
 			int _num_customers;							// 客の総数
 			int _stop_count;							// 停止回数. VPYLM用
@@ -29,6 +29,27 @@ namespace npylm {
 			int _depth;									// ノードの深さ. rootが0であることに注意
 			T _token_id;								// このノードに割り当てられた単語ID（または文字ID）
 			Node(){}
+			
+			/// deepcopy by Horie //////////////////////
+			Node(const Node<T> & copyee){
+				_parent = NULL // 再帰処理で親側から再指定します
+				_num_tables = copyee._num_tables
+				_num_customers = copyee._num_customers
+				_stop_count = copyee._stop_count
+				_pass_count = copyee._pass_count
+				_depth = copyee._depth
+				_token_id = copyee._token_id
+
+				for(const auto& elem:copyee._children){
+					_children[elem.first] = Node(elem->second)
+					_children[elem.first]._parent = this // 再帰処理で子の _parent を指定する
+				}
+				for(const auto& arrangee:copyee.arangement){
+					_arrangement[elem.first] = elem.second
+				}
+			}
+			////////////////////////////////////////////			
+
 			Node(T token_id){
 				_num_tables = 0;
 				_num_customers = 0;

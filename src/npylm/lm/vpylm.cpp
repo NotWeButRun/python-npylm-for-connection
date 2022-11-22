@@ -22,10 +22,24 @@ namespace lm {
         _depth = 0;
         _g0 = g0;
         _max_depth = max_possible_depth; // 訓練データ中の最大長の文の文字数が可能な最大深さになる
+        _max_possible_depth = max_possible_depth; // Added by Horie
         _parent_pw_cache = new double[max_possible_depth + 1];
         _sampling_table = new double[max_possible_depth + 1];
         _path_nodes = new Node<wchar_t>*[max_possible_depth + 1];
     }
+    /// deepcopy by Horie //////////////////////
+    // Model のコピーコンストラクタを呼ぶ
+    VPYLM::VPYLM(const VPYLM & copyee) : Model(copyee){	
+        _beta_stop = copyee._beta_stop;
+        _beta_pass = copyee._beta_pass;
+        _max_depth = copyee._max_depth;
+        for (int i=0; i < _max_possible_depth + 1; i++){
+            _parent_pw_cache[i] = copyee._parent_pw_cache[i];
+            _sampling_table[i] = copyee._sampling_table[i];
+            _path_nodes[i] = new Node<wchar_t>(*(copyee._path_nodes[i]));
+        }
+    }
+    ////////////////////////////////////////////	
     VPYLM::~VPYLM()
     {
         _delete_node(_root);

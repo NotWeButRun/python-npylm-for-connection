@@ -26,6 +26,13 @@ namespace npylm {
 				_beta_m.push_back(HPYLM_GAMMA_BETA);
 			}
 		}
+
+		/// deepcopy by Horie //////////////////////
+		// Model のコピーコンストラクタを呼ぶ
+		HPYLM::HPYLM(const HPYLM & copyee) : Model(copyee){			
+		}
+		////////////////////////////////////////////	
+
 		HPYLM::~HPYLM(){
 			_delete_node(_root);
 		}

@@ -20,12 +20,14 @@ namespace npylm {
 			double _beta_stop;		// 停止確率q_iのベータ分布の初期パラメータ
 			double _beta_pass;		// 停止確率q_iのベータ分布の初期パラメータ
 			int _max_depth;
+			int _max_possible_depth; // Added by Horie
 			// 計算高速化用
 			double* _sampling_table;
 			double* _parent_pw_cache;
 			Node<wchar_t>** _path_nodes;
 			VPYLM(){}
 			VPYLM(double g0, int max_possible_depth, double beta_stop, double beta_pass);
+			VPYLM(const VPYLM & copyee); //deepcopy by Horie
 			~VPYLM();
 			bool add_customer_at_time_t(wchar_t const* character_ids, int t, int depth_t);
 			bool add_customer_at_time_t(wchar_t const* character_ids, int t, int depth_t, double* parent_pw_cache, Node<wchar_t>** path_nodes);

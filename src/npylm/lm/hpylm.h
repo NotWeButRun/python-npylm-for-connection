@@ -14,6 +14,7 @@ namespace npylm {
 			void serialize(Archive& archive, unsigned int version);
 		public:
 			HPYLM(int ngram = 2);
+			HPYLM(const HPYLM & copyee); // deepcopy by Horie
 			~HPYLM();
 		};
 	}
