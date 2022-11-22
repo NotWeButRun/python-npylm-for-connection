@@ -46,6 +46,48 @@ namespace npylm {
 			std::cout << "warning: debug mode enabled!" << std::endl;
 		#endif
 	}
+
+    /// deepcopy by Horie //////////////////////
+    NPYLM::NPYLM(const NPYLM & copyee){	
+		_max_sentence_length = copyee._max_sentence_length;
+		_max_word_length = copyee._max_word_length;
+		_lambda_a = copyee._lambda_a;
+		_lambda_b = copyee._lambda_b;
+
+		_hpylm = new HPYLM(*(copyee._hpylm));
+		_vpylm = new VPYLM(*(copyee._vpylm));
+		_lambda_for_type = new double[WORDTYPE_NUM_TYPES + 1];
+		_hpylm_parent_pw_cache = new double[3];
+		_characters = new wchar_t[_max_sentence_length + 2];
+		_pk_vpylm = new double[_max_word_length + 2];
+
+		for (int i = 0; i < WORDTYPE_NUM_TYPES; i++){
+			_lambda_for_type[i] = copyee._lambda_for_type[i];
+		}
+		for (int i = 0; i < 3; i++){
+			_pk_vpylm[i] = copyee._pk_vpylm[i];
+		}
+		for (int i = 0; i < _max_sentence_length + 2; i++){
+			_characters[i] = copyee._characters[i];
+		}
+		for (int i = 0; i < _max_word_length + 2; i++){
+			_pk_vpylm[i] = copyee._pk_vpylm[i];
+		}
+
+		for (const auto &elem : copyee._prev_depth_at_table_of_token){
+			_prev_depth_at_table_of_token[elem.first] = elem.second;
+		}
+		for (const auto &elem : copyee._g0_cache){
+			_g0_cache[elem.first] = elem.second;
+		}
+		for (const auto &elem : copyee._vpylm_g0_cache){
+			_vpylm_g0_cache[elem.first] = elem.second;
+		}
+
+
+    }
+    ////////////////////////////////////////////
+
 	NPYLM::~NPYLM(){
 		delete _hpylm;
 		delete _vpylm;

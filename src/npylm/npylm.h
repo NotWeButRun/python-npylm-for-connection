@@ -46,6 +46,7 @@ namespace npylm {
 			double initial_lambda_b, 
 			double vpylm_beta_stop, 
 			double vpylm_beta_pass);
+		NPYLM(const NPYLM & copyee); // deepcopy by Horie
 		~NPYLM();
 		void reserve(int max_sentence_length);
 		void set_vpylm_g0(double g0);
