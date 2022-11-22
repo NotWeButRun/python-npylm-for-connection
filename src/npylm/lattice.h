@@ -25,6 +25,7 @@ namespace npylm {
 		int _max_word_length;
 		int _max_sentence_length;
 		Lattice(NPYLM* npylm, int max_word_length, int max_sentence_length);
+		Lattice(const Lattice & copyee, NPYLM* npylm); // deepcopy by Horie
 		~Lattice();
 		void reserve(int max_word_length, int max_sentence_length);
 		id get_substring_word_id_at_t_k(Sentence* sentence, int t, int k);

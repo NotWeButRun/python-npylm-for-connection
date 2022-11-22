@@ -51,6 +51,41 @@ namespace npylm {
 		_substring_word_id_cache = NULL;
 		_allocate_capacity(max_word_length, max_sentence_length);
 	}
+
+    /// deepcopy by Horie //////////////////////
+    Lattice::Lattice(const Lattice & copyee, NPYLM* npylm){	
+		_npylm = npylm; // NPYLM はモデルから受け取るので, この領域ではディープコピーしない
+		
+		_word_ids = new id[3];	// 3-gram
+		for (int i = 0; i < 3; i++){
+			_word_ids = copyee._word_ids;
+		}
+		
+		// 領域を確保してから deepcopy
+		_allocate_capacity(copyee._max_word_length, copyee._max_sentence_length);
+		for(int t = 0;t < _max_sentence_length + 2;t++){
+			_log_z[t] = copyee._log_z[t];
+			_scaling[t] = copyee._scaling[t];
+			for(int k = 0;k < _max_word_length + 1;k++){
+				_substring_word_id_cache[t][k] = copyee._substring_word_id_cache[t][k];
+				for(int j = 0;j < _max_word_length + 1;j++){
+					_alpha[t][k][j] = copyee._alpha[t][k][j];
+					_viterbi_backward[t][k][j] = copyee._viterbi_backward[t][k][j];
+					for(int i = 0;i < _max_word_length + 1;i++){
+						_pw_h[t][k][j][i] = copyee._pw_h[t][k][j][i];
+					}
+				}
+			}
+		}
+
+		for(int i = 0; i < _max_word_length * _max_word_length;i++){
+			_backward_sampling_table[i] = copyee._backward_sampling_table[i];
+		}
+
+
+    }
+    ////////////////////////////////////////////
+
 	Lattice::~Lattice(){
 		delete[] _word_ids;
 		_delete_capacity();
