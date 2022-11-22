@@ -25,6 +25,7 @@ namespace npylm {
 		double _compute_log_likelihood(std::vector<Sentence*> &dataset);
 	public:
 		Trainer(Dataset* dataset, Model* model, bool always_accept_new_segmentation);
+		Trainer(const Trainer & copyee); // deepcopy by Hoire
 		void remove_all_data();
 		boost::python::list gibbs();
 		void sample_hpylm_vpylm_hyperparameters();

@@ -25,6 +25,35 @@ namespace npylm {
 		_num_segmentation_acceptance = 0;
 	}
 
+	/// deepcopy by Horie //////////////////////
+	// Dictionary に関しては Dataset から受け取ります
+	Trainer::Trainer(const HPYLM & copyee){
+		_rand_indices_train = copyee._rand_indices_train
+		_rand_indices_dev = copyee._rand_indices_dev
+		_always_accept_new_segmentation = copyee._always_accept_new_segmentation
+		_num_segmentation_rejection = copyee._num_segmentation_rejection
+		_num_segmentation_acceptance = copyee._num_segmentation_acceptance
+
+		_dataset = new Dataset(*(copyee._dataset));
+		_model = new Model(*(copyee._model));
+		_dict = dataset->._dict // ここはディープコピーしない（Dataset との対応を取る）
+
+		//領域確保
+		_vpylm_sampling_probability_table = new double[_dict->get_num_characters() + 1];
+		_vpylm_sampling_id_table = new wchar_t[_dict->get_num_characters() + 1];
+		_added_to_npylm_train = new bool[dataset->_sentence_sequences_train.size()];
+
+		for (i = 0;i < _dict->get_num_characters() + 1; i++){
+			_vpylm_sampling_probability_table[i] = copyee._vpylm_sampling_probability_table[i]
+			_vpylm_sampling_id_table[i] = copyee._vpylm_sampling_id_table[i]
+
+		}
+		for (i = 0;i < dataset->_sentence_sequences_train.size(); i++){
+			_added_to_npylm_train = copyee._added_to_npylm_train[i]
+		}
+	}
+	////////////////////////////////////////////	
+
 	// HPYLM,VPYLMのdとthetaをサンプリング
 	void Trainer::sample_hpylm_vpylm_hyperparameters(){
 		_model->_npylm->sample_hpylm_vpylm_hyperparameters();
