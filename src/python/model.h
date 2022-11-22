@@ -20,6 +20,7 @@ namespace npylm {
 			double vpylm_beta_stop, 
 			double vpylm_beta_pass);
 		Model(std::string filename);
+		Model(const Model & copyee); // deepcopy by Horie
 		~Model();
 		int get_max_word_length();
 		void set_initial_lambda_a(double lambda);
