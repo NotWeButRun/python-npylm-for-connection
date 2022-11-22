@@ -33,6 +33,11 @@ namespace lm {
         _beta_stop = copyee._beta_stop;
         _beta_pass = copyee._beta_pass;
         _max_depth = copyee._max_depth;
+        _max_possible_depth = copyee._max_possible_depth;
+
+        _parent_pw_cache = new double[_max_possible_depth + 1];
+        _sampling_table = new double[_max_possible_depth + 1];
+        _path_nodes = new Node<wchar_t>*[_max_possible_depth + 1];
         for (int i=0; i < _max_possible_depth + 1; i++){
             _parent_pw_cache[i] = copyee._parent_pw_cache[i];
             _sampling_table[i] = copyee._sampling_table[i];
