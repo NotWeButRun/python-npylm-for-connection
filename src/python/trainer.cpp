@@ -405,4 +405,10 @@ namespace npylm {
 			delete sentence;
 		}
 	}
+
+	/// deepcopy by Horie //////////////////////
+	Trainer Trainer::deepcopy(){
+		return Trainer(*this);
+	}
+	////////////////////////////////////////////
 }
