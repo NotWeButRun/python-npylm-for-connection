@@ -56,6 +56,8 @@ namespace npylm {
 
 		_hpylm = new HPYLM(*(copyee._hpylm));
 		_vpylm = new VPYLM(*(copyee._vpylm));
+
+		// 配列は領域を確保してからコピー
 		_lambda_for_type = new double[WORDTYPE_NUM_TYPES + 1];
 		_hpylm_parent_pw_cache = new double[3];
 		_characters = new wchar_t[_max_sentence_length + 2];

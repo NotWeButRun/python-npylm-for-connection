@@ -53,7 +53,7 @@ namespace npylm {
 	}
 
     /// deepcopy by Horie //////////////////////
-    Lattice::Lattice(const Lattice & copyee, NPYLM* npylm){	
+    Lattice::Lattice(const Lattice & copyee, NPYLM* npylm){
 		_npylm = npylm; // NPYLM はモデルから受け取るので, この領域ではディープコピーしない
 		
 		_word_ids = new id[3];	// 3-gram
@@ -62,6 +62,7 @@ namespace npylm {
 		}
 		
 		// 領域を確保してから deepcopy
+		// _allocate_capacity の中で _max_word_length と _max_sentence_length もコピーされます
 		_allocate_capacity(copyee._max_word_length, copyee._max_sentence_length);
 		for(int t = 0;t < _max_sentence_length + 2;t++){
 			_log_z[t] = copyee._log_z[t];
