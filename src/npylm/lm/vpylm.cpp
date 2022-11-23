@@ -35,6 +35,7 @@ namespace lm {
         _max_depth = copyee._max_depth;
         _max_possible_depth = copyee._max_possible_depth;
 
+        // 領域を確保してからコピー
         _parent_pw_cache = new double[_max_possible_depth + 1];
         _sampling_table = new double[_max_possible_depth + 1];
         _path_nodes = new Node<wchar_t>*[_max_possible_depth + 1];
