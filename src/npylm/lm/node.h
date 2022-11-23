@@ -41,10 +41,10 @@ namespace npylm {
 				_token_id = copyee._token_id
 
 				for(const auto& elem:copyee._children){
-					_children[elem.first] = Node(*(elem.second))
+					_children[elem.first] = new Node(*(elem.second))
 					_children[elem.first]._parent = this // 再帰処理で子の _parent を指定する
 				}
-				for(const auto& arrangee:copyee.arangement){
+				for(const auto& elem:copyee.arangement){
 					_arrangement[elem.first] = elem.second
 				}
 			}
