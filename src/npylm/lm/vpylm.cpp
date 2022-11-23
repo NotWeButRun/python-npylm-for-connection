@@ -39,7 +39,7 @@ namespace lm {
         _parent_pw_cache = new double[_max_possible_depth + 1];
         _sampling_table = new double[_max_possible_depth + 1];
         _path_nodes = new Node<wchar_t>*[_max_possible_depth + 1];
-        for (int i=0; i < _max_possible_depth + 1; i++){
+        for (int i = 0; i < _max_possible_depth + 1; i++){
             _parent_pw_cache[i] = copyee._parent_pw_cache[i];
             _sampling_table[i] = copyee._sampling_table[i];
             _path_nodes[i] = new Node<wchar_t>(*(copyee._path_nodes[i]));
