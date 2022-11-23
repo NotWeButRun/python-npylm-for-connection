@@ -27,10 +27,10 @@ namespace npylm {
 			std::vector<double> _alpha_m;	// ガンマ分布のパラメータ	θの推定用
 			std::vector<double> _beta_m;	// ガンマ分布のパラメータ	θの推定用
 
-			Model:Model(){} // added by Horie
+			Model(){} // added by Horie
 			
 			/// deepcopy by Horie //////////////////////
-			Model::Model(const Model & copyee){
+			Model(const Model & copyee){
 				_root = new Node<T>(*(copyee._root));
 				_depth = copyee._depth;
 				_g0 = copyee._g0;
@@ -39,7 +39,7 @@ namespace npylm {
 				_a_m = copyee._a_m;
 				_b_m = copyee._b_m;
 				_alpha_m = copyee._alpha_m;
-				_beta_m = coppyee._beta_m;
+				_beta_m = copyee._beta_m;
 			}
 			////////////////////////////////////////////
 

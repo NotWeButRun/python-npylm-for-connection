@@ -27,29 +27,29 @@ namespace npylm {
 
 	/// deepcopy by Horie //////////////////////
 	// Dictionary に関しては Dataset から受け取ります
-	Trainer::Trainer(const HPYLM & copyee){
-		_rand_indices_train = copyee._rand_indices_train
-		_rand_indices_dev = copyee._rand_indices_dev
-		_always_accept_new_segmentation = copyee._always_accept_new_segmentation
-		_num_segmentation_rejection = copyee._num_segmentation_rejection
-		_num_segmentation_acceptance = copyee._num_segmentation_acceptance
+	Trainer::Trainer(const Trainer & copyee){
+		_rand_indices_train = copyee._rand_indices_train;
+		_rand_indices_dev = copyee._rand_indices_dev;
+		_always_accept_new_segmentation = copyee._always_accept_new_segmentation;
+		_num_segmentation_rejection = copyee._num_segmentation_rejection;
+		_num_segmentation_acceptance = copyee._num_segmentation_acceptance;
 
 		_dataset = new Dataset(*(copyee._dataset));
 		_model = new Model(*(copyee._model));
-		_dict = dataset->_dict // ここはディープコピーしない（Dataset との対応を取る）
+		_dict = _dataset->_dict; // ここはディープコピーしない（Dataset との対応を取る）
 
 		// 配列は領域確保してからコピー
 		_vpylm_sampling_probability_table = new double[_dict->get_num_characters() + 1];
 		_vpylm_sampling_id_table = new wchar_t[_dict->get_num_characters() + 1];
-		_added_to_npylm_train = new bool[dataset->_sentence_sequences_train.size()];
+		_added_to_npylm_train = new bool[_dataset->_sentence_sequences_train.size()];
 
 		for (int i = 0;i < _dict->get_num_characters() + 1; i++){
-			_vpylm_sampling_probability_table[i] = copyee._vpylm_sampling_probability_table[i]
-			_vpylm_sampling_id_table[i] = copyee._vpylm_sampling_id_table[i]
+			_vpylm_sampling_probability_table[i] = copyee._vpylm_sampling_probability_table[i];
+			_vpylm_sampling_id_table[i] = copyee._vpylm_sampling_id_table[i];
 
 		}
-		for (int i = 0;i < dataset->_sentence_sequences_train.size(); i++){
-			_added_to_npylm_train = copyee._added_to_npylm_train[i]
+		for (int i = 0;i < _dataset->_sentence_sequences_train.size(); i++){
+			_added_to_npylm_train[i] = copyee._added_to_npylm_train[i];
 		}
 	}
 	////////////////////////////////////////////	

@@ -39,7 +39,7 @@ namespace npylm {
     /// deepcopy by Horie //////////////////////
     Model::Model(const Model & copyee){
         _npylm = new NPYLM(*(copyee._npylm));
-        _lattice = new Lattice(*(copye._lattice), _npylm)
+        _lattice = new Lattice(*(copyee._lattice), _npylm);
     }
     ////////////////////////////////////////////
 
