@@ -407,8 +407,15 @@ namespace npylm {
 	}
 
 	/// deepcopy by Horie //////////////////////
-	Trainer Trainer::deepcopy(){
-		return Trainer(*this);
+	inline PyObject * managingPyObject(Trainer *p)
+	{
+		return typename boost::python::manage_new_object::apply<Trainer *>::type()(p);
+	}
+
+	boost::python::object Trainer::deepcopy(){
+		Trainer copy = Trainer(*this);
+		boost::python::object result(boost::python::detail::new_reference(managingPyObject(&copy)));
+		return result;
 	}
 	////////////////////////////////////////////
 }
