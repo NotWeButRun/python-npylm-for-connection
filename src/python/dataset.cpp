@@ -64,8 +64,9 @@ namespace npylm {
 	}
 
 	/// deepcopy by Horie //////////////////////
+	// Corpus だけは（一度作ったらいじらない & めちゃくちゃ重いので）シャローコピー
 	Dataset::Dataset(const Dataset & copyee){
-		_corpus = new Corpus(*(copyee._corpus));
+		_corpus = copyee._corpus;
 		_dict = new Dictionary(*(copyee._dict));
 
 		_max_sentence_length = copyee._max_sentence_length;
