@@ -7,7 +7,6 @@
 #include <cassert>
 #include <fstream>
 #include <iostream>
-
 namespace npylm {
 namespace lm {
     VPYLM::VPYLM(double g0, int max_possible_depth, double beta_stop, double beta_pass)
@@ -42,6 +41,8 @@ namespace lm {
         for (int i = 0; i < _max_possible_depth + 1; i++){
             _parent_pw_cache[i] = copyee._parent_pw_cache[i];
             _sampling_table[i] = copyee._sampling_table[i];
+            
+            if(copyee._path_nodes[i] == NULL) continue; //パスは途中で終わることに注意
             _path_nodes[i] = new Node<wchar_t>(*(copyee._path_nodes[i]));
         }
     }
