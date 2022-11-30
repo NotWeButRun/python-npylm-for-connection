@@ -8,6 +8,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <boost/python.hpp>
 
 namespace npylm {
 namespace lm {
@@ -49,8 +50,11 @@ namespace lm {
         }
 
         // 配列のコピー. ただしノードは, 親子関係を保持するように留意
-        _path_nodes[0] = new Node<wchar_t>(*(copyee._path_nodes[0]));
-        Node<wchar_t>* now_parent;
+        Node<wchar_t>* now_parent = NULL;
+        if(copyee._path_nodes[0] != NULL) {
+            Node<wchar_t>* now_parent = new Node<wchar_t>(*(copyee._path_nodes[0]));
+        }
+
         for (int i = 0; i < _max_possible_depth + 1; i++){
             _parent_pw_cache[i] = copyee._parent_pw_cache[i];
             _sampling_table[i] = copyee._sampling_table[i];
