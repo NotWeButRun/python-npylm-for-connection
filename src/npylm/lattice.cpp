@@ -64,14 +64,17 @@ namespace npylm {
 		// 領域を確保してから deepcopy
 		// _allocate_capacity の中で _max_word_length と _max_sentence_length もコピーされます
 		_allocate_capacity(copyee._max_word_length, copyee._max_sentence_length);
-		for(int t = 0;t < _max_sentence_length + 2;t++){
+		for(int t = 0;t < _max_sentence_length + 1;t++){
 			_log_z[t] = copyee._log_z[t];
 			_scaling[t] = copyee._scaling[t];
+
 			for(int k = 0;k < _max_word_length + 1;k++){
 				_substring_word_id_cache[t][k] = copyee._substring_word_id_cache[t][k];
+
 				for(int j = 0;j < _max_word_length + 1;j++){
 					_alpha[t][k][j] = copyee._alpha[t][k][j];
 					_viterbi_backward[t][k][j] = copyee._viterbi_backward[t][k][j];
+
 					for(int i = 0;i < _max_word_length + 1;i++){
 						_pw_h[t][k][j][i] = copyee._pw_h[t][k][j][i];
 					}
