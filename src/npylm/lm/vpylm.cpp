@@ -38,12 +38,22 @@ namespace lm {
         _parent_pw_cache = new double[_max_possible_depth + 1];
         _sampling_table = new double[_max_possible_depth + 1];
         _path_nodes = new Node<wchar_t>*[_max_possible_depth + 1];
-        for (int i = 0; i < _max_possible_depth + 1; i++){
+
+        // 末尾のノードだけは copyee から直接コピー
+        for (int i = _max_possible_depth; i >=0; i--){
+            if(copyee._path_nodes[i] == NULL) continue;
+            _path_nodes[i] = new Node<wchar_t>(*(copyee._path_nodes[i]));
+        }
+
+        // Node を子から辿りたいので, 逆順でコピー
+        for (int i = _max_possible_depth; i >=0; i--){
             _parent_pw_cache[i] = copyee._parent_pw_cache[i];
             _sampling_table[i] = copyee._sampling_table[i];
             
-            if(copyee._path_nodes[i] == NULL) continue; //パスは途中で終わることに注意
-            _path_nodes[i] = new Node<wchar_t>(*(copyee._path_nodes[i]));
+            // 子から親を辿ってコピー
+            // ディープコピー自体は Node 側ですでに行われていることに注意
+            if(i < _max_possible_depth && _path_nodes[i + 1] == NULL) continue;
+            _path_nodes[i] = _path_nodes[i + 1]->_parent;
         }
     }
     ////////////////////////////////////////////	
