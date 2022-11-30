@@ -32,7 +32,7 @@ namespace npylm {
 			
 			/// deepcopy by Horie //////////////////////
 			Node(const Node<T> & copyee){
-				// _child は再帰処理で子側から再指定します
+				_parent = NULL; // 再帰処理で親側から再指定します
 				_num_tables = copyee._num_tables;
 				_num_customers = copyee._num_customers;
 				_stop_count = copyee._stop_count;
@@ -40,14 +40,10 @@ namespace npylm {
 				_depth = copyee._depth;
 				_token_id = copyee._token_id;
 
-				// _parent の処理
-				_parent = NULL;
-				if(copyee._parent != NULL){
-					_parent = new Node<T>(*(copyee._parent));
-					_parent->_children[_token_id] = this;
+				for(const auto& elem:copyee._children){
+					_children[elem.first] = new Node(*(elem.second));
+					_children[elem.first]->_parent = this; // 再帰処理で子の _parent を指定する
 				}
-
-				// vector のコピー
 				for(const auto& elem:copyee._arrangement){
 					_arrangement[elem.first] = elem.second;
 				}

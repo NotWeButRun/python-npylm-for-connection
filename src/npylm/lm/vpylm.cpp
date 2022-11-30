@@ -7,6 +7,8 @@
 #include <cassert>
 #include <fstream>
 #include <iostream>
+#include <vector>
+
 namespace npylm {
 namespace lm {
     VPYLM::VPYLM(double g0, int max_possible_depth, double beta_stop, double beta_pass)
@@ -39,21 +41,25 @@ namespace lm {
         _sampling_table = new double[_max_possible_depth + 1];
         _path_nodes = new Node<wchar_t>*[_max_possible_depth + 1];
 
-        // 末尾のノードだけは copyee から直接コピー
-        for (int i = _max_possible_depth; i >=0; i--){
-            if(copyee._path_nodes[i] == NULL) continue;
-            _path_nodes[i] = new Node<wchar_t>(*(copyee._path_nodes[i]));
+        // ノードに対応する番号を抽出
+        std::vector<wchar_t> child_ids(_max_possible_depth);
+        for (int i = 1; i < _max_possible_depth + 1; i++){
+            if(copyee._path_nodes[i] == NULL) break;
+            child_ids[i-1] = copyee._path_nodes[i]->_token_id;
         }
 
-        // Node を子から辿りたいので, 逆順でコピー
-        for (int i = _max_possible_depth; i >=0; i--){
+        // 配列のコピー. ただしノードは, 親子関係を保持するように留意
+        _path_nodes[0] = new Node<wchar_t>(*(copyee._path_nodes[0]));
+        Node<wchar_t>* now_parent;
+        for (int i = 0; i < _max_possible_depth + 1; i++){
             _parent_pw_cache[i] = copyee._parent_pw_cache[i];
             _sampling_table[i] = copyee._sampling_table[i];
             
             // 子から親を辿ってコピー
             // ディープコピー自体は Node 側ですでに行われていることに注意
-            if(i < _max_possible_depth && _path_nodes[i + 1] == NULL) continue;
-            _path_nodes[i] = _path_nodes[i + 1]->_parent;
+            _path_nodes[i] = now_parent;
+            if(now_parent == NULL || i >= _max_possible_depth) continue;
+            Node<wchar_t>* now_parent = now_parent->find_child_node(child_ids[i]);
         }
     }
     ////////////////////////////////////////////	
