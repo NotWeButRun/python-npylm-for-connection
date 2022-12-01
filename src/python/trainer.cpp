@@ -28,6 +28,7 @@ namespace npylm {
 	/// deepcopy by Horie //////////////////////
 	// Dictionary に関しては Dataset から受け取ります
 	Trainer::Trainer(const Trainer & copyee){
+		// boost::python::object global = boost::python::import("__main__").attr("__dict__");
 		_rand_indices_train = copyee._rand_indices_train;
 		_rand_indices_dev = copyee._rand_indices_dev;
 		_always_accept_new_segmentation = copyee._always_accept_new_segmentation;
@@ -42,7 +43,7 @@ namespace npylm {
 		_vpylm_sampling_probability_table = new double[_dict->get_num_characters() + 1];
 		_vpylm_sampling_id_table = new wchar_t[_dict->get_num_characters() + 1];
 		_added_to_npylm_train = new bool[_dataset->_sentence_sequences_train.size()];
-
+		
 		for (int i = 0;i < _dict->get_num_characters() + 1; i++){
 			_vpylm_sampling_probability_table[i] = copyee._vpylm_sampling_probability_table[i];
 			_vpylm_sampling_id_table[i] = copyee._vpylm_sampling_id_table[i];
@@ -51,6 +52,7 @@ namespace npylm {
 		for (int i = 0;i < _dataset->_sentence_sequences_train.size(); i++){
 			_added_to_npylm_train[i] = copyee._added_to_npylm_train[i];
 		}
+		// boost::python::exec("print('copy DONE')", global);
 	}
 	////////////////////////////////////////////	
 
@@ -412,9 +414,10 @@ namespace npylm {
 		return typename boost::python::manage_new_object::apply<Trainer *>::type()(p);
 	}
 
-	Trainer Trainer::deepcopy(){
+	boost::python::object Trainer::deepcopy(){
 		Trainer copy = Trainer(*this);
-		return copy;
+		boost::python::object result(boost::python::detail::new_reference(managingPyObject(&copy)));
+		return result;
 	}
 	////////////////////////////////////////////
 }
