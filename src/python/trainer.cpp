@@ -28,7 +28,6 @@ namespace npylm {
 	/// deepcopy by Horie //////////////////////
 	// Dictionary に関しては Dataset から受け取ります
 	Trainer::Trainer(const Trainer & copyee){
-		// boost::python::object global = boost::python::import("__main__").attr("__dict__");
 		_rand_indices_train = copyee._rand_indices_train;
 		_rand_indices_dev = copyee._rand_indices_dev;
 		_always_accept_new_segmentation = copyee._always_accept_new_segmentation;
@@ -52,6 +51,7 @@ namespace npylm {
 		for (int i = 0;i < _dataset->_sentence_sequences_train.size(); i++){
 			_added_to_npylm_train[i] = copyee._added_to_npylm_train[i];
 		}
+		// boost::python::object global = boost::python::import("__main__").attr("__dict__");
 		// boost::python::exec("print('copy DONE')", global);
 	}
 	////////////////////////////////////////////	
@@ -189,8 +189,11 @@ namespace npylm {
 	// 単語分割のギブスサンプリング
 	// モデル同士を接続するために, 分節結果をリターンする
 	boost::python::list Trainer::gibbs(){
+		boost::python::object global = boost::python::import("__main__").attr("__dict__");
+		boost::python::exec("print('point0')", global);
+		
 		/// ---- 準備 ----
-		// ギブスサンプリングに関するパラメータ
+		// ギブスサンプリングに関するパラメータ	
 		int num_sentences = _dataset->_sentence_sequences_train.size();
 		assert(num_sentences > 0);
 		int max_sentence_length = _dataset->get_max_sentence_length();
@@ -312,6 +315,7 @@ namespace npylm {
 		for (int step = 0; step < num_sentences; step++){
 			dishuffled_result.append(gibbs_segment_results[step]);
 		}
+		boost::python::exec("print('point loop-end')", global);
 		return dishuffled_result;
 	}
 	double Trainer::compute_perplexity_train(){
@@ -415,8 +419,8 @@ namespace npylm {
 	}
 
 	boost::python::object Trainer::deepcopy(){
-		Trainer copy = Trainer(*this);
-		boost::python::object result(boost::python::detail::new_reference(managingPyObject(&copy)));
+		_copy = new Trainer(*this);
+		boost::python::object result(boost::python::detail::new_reference(managingPyObject(_copy)));
 		return result;
 	}
 	////////////////////////////////////////////

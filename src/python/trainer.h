@@ -24,6 +24,7 @@ namespace npylm {
 		double _compute_perplexity(std::vector<Sentence*> &dataset);
 		double _compute_log_likelihood(std::vector<Sentence*> &dataset);
 	public:
+		Trainer* _copy;//added by Horie: インスタンスの破棄をふせぐため
 		Trainer(Dataset* dataset, Model* model, bool always_accept_new_segmentation);
 		Trainer(const Trainer & copyee); // deepcopy by Hoire
 		void remove_all_data();
@@ -38,6 +39,6 @@ namespace npylm {
 		double compute_log_likelihood_dev();
 		void print_segmentation_train(int num_to_print);
 		void print_segmentation_dev(int num_to_print);
-		boost::python::object deepcopy();
+		boost::python::object deepcopy(); //deep copy by Horie
 	};
 }
