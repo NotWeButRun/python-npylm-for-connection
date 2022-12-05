@@ -35,8 +35,7 @@ namespace npylm {
 	}
 
 	/// deepcopy by Horie //////////////////////
-	Sentence::Sentence(const Sentence & copyee){
-		Sentence(copyee._sentence_str);
+	Sentence::Sentence(const Sentence & copyee) : Sentence(copyee._sentence_str){
 	}
 	////////////////////////////////////////////
 
