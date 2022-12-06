@@ -58,7 +58,7 @@ namespace lm {
             // ディープコピー自体は Node 側ですでに行われていることに注意
             _path_nodes[i] = now_parent;
             if(now_parent == NULL || i >= _max_possible_depth) continue;
-            Node<wchar_t>* now_parent = now_parent->find_child_node(child_ids[i]);
+            now_parent = now_parent->find_child_node(child_ids[i]);
         }
     }
     ////////////////////////////////////////////	
