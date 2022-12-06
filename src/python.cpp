@@ -85,7 +85,7 @@ BOOST_PYTHON_MODULE(npylm)
         .def("compute_perplexity_dev", &Trainer::compute_perplexity_dev)
         .def("gibbs", &Trainer::gibbs)
         .def("__copy__", &generic__copy__< Model >)
-        .def("deepcopy", &Trainer::deepcopy);
+        .def("deepcopy", &Trainer::deepcopy, boost::python::return_internal_reference<>());
         // // .def(init< const Model & >());
 
 

@@ -190,13 +190,14 @@ namespace npylm {
 	// モデル同士を接続するために, 分節結果をリターンする
 	boost::python::list Trainer::gibbs(){
 		boost::python::object global = boost::python::import("__main__").attr("__dict__");
-		boost::python::exec("print('point0')", global);
-		
+		// boost::python::exec("print('point5.0', flush=True)", global);
 		/// ---- 準備 ----
 		// ギブスサンプリングに関するパラメータ	
 		int num_sentences = _dataset->_sentence_sequences_train.size();
+
 		assert(num_sentences > 0);
 		int max_sentence_length = _dataset->get_max_sentence_length();
+
 		std::vector<int> segments;		// 分割の一時保存用
 		shuffle(_rand_indices_train.begin(), _rand_indices_train.end(), sampler::mt);		// データをシャッフル
 		int* old_segments = new int[max_sentence_length + 3];
@@ -236,6 +237,8 @@ namespace npylm {
 			// 教師なし
 			// モデルに追加されているかチェック
 			if(_added_to_npylm_train[data_index] == true){
+				// boost::python::exec("print('point5.1')", global);
+
 				double old_log_ps, new_log_ps;
 				// 古い分割をモデルから削除
 				for(int t = 2;t < sentence->get_num_segments();t++){
@@ -252,6 +255,7 @@ namespace npylm {
 					// 古い分割での文の確率を計算
 					old_log_ps = _model->_npylm->compute_log_p_w(sentence);
 				}
+				// boost::python::exec("print('point5.2')", global);
 				
 				#ifdef __DEBUG__
 					// 正規化しない場合の結果と比較するためシードを合わせる
@@ -262,7 +266,8 @@ namespace npylm {
 				// 新しい分割を取得
 				_model->_lattice->blocked_gibbs(sentence, segments, true);
 				sentence->split(segments);
-				
+				// boost::python::exec("print('point5.3')", global);
+
 				#ifdef __DEBUG__
 					// 正規化しない場合の結果と比較
 					std::vector<int> a = segments;
@@ -274,6 +279,7 @@ namespace npylm {
 						assert(a[i] == b[i]);
 					}
 				#endif
+				// boost::python::exec("print('point5.4')", global);
 
 				// 以前の分割結果と現在の分割結果の確率を求める
 				// 本来は分割を一定数サンプリングして平均をとるべき
@@ -306,6 +312,7 @@ namespace npylm {
 			}
 			gibbs_segment_results[data_index] = gibbs_segment_now_result;
 		}
+			// boost::python::exec("print('point6')", global);
 
 		/// ---- 事後処理 ----
 		// 客数チェックとデータセーブ
@@ -315,7 +322,7 @@ namespace npylm {
 		for (int step = 0; step < num_sentences; step++){
 			dishuffled_result.append(gibbs_segment_results[step]);
 		}
-		boost::python::exec("print('point loop-end')", global);
+		// boost::python::exec("print('point loop-end')", global);
 		return dishuffled_result;
 	}
 	double Trainer::compute_perplexity_train(){
@@ -418,10 +425,11 @@ namespace npylm {
 		return typename boost::python::manage_new_object::apply<Trainer *>::type()(p);
 	}
 
-	boost::python::object Trainer::deepcopy(){
+	Trainer& Trainer::deepcopy(){
+		//_copy = boost::python::object(boost::python::detail::new_reference(managingPyObject(new Trainer(*this))));
 		_copy = new Trainer(*this);
-		boost::python::object result(boost::python::detail::new_reference(managingPyObject(_copy)));
-		return result;
+
+		return *_copy;
 	}
 	////////////////////////////////////////////
 }

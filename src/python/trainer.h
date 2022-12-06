@@ -39,6 +39,6 @@ namespace npylm {
 		double compute_log_likelihood_dev();
 		void print_segmentation_train(int num_to_print);
 		void print_segmentation_dev(int num_to_print);
-		boost::python::object deepcopy(); //deep copy by Horie
+		Trainer& deepcopy(); //deep copy by Horie
 	};
 }
