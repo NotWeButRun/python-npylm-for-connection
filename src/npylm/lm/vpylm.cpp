@@ -29,6 +29,7 @@ namespace lm {
         _sampling_table = new double[max_possible_depth + 1];
         _path_nodes = new Node<wchar_t>*[max_possible_depth + 1];
     }
+
     /// deepcopy by Horie //////////////////////
     // Model のコピーコンストラクタを呼ぶ
     VPYLM::VPYLM(const VPYLM & copyee) : Model(copyee){	
@@ -61,7 +62,8 @@ namespace lm {
             now_parent = now_parent->find_child_node(child_ids[i]);
         }
     }
-    ////////////////////////////////////////////	
+    ////////////////////////////////////////////
+    	
     VPYLM::~VPYLM()
     {
         _delete_node(_root);
