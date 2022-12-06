@@ -39,12 +39,12 @@ namespace npylm {
 		double* _hpylm_parent_pw_cache;
 		wchar_t* _characters;
 		NPYLM(){}
-		NPYLM(int max_word_length, 
-			int max_sentence_length, 
-			double g0, 
-			double initial_lambda_a, 
-			double initial_lambda_b, 
-			double vpylm_beta_stop, 
+		NPYLM(int max_word_length,
+			int max_sentence_length,
+			double g0,
+			double initial_lambda_a,
+			double initial_lambda_b,
+			double vpylm_beta_stop,
 			double vpylm_beta_pass);
 		NPYLM(const NPYLM & copyee); // deepcopy by Horie
 		~NPYLM();
