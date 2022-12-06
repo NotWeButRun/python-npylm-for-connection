@@ -50,16 +50,11 @@ namespace lm {
         }
 
         // 配列のコピー. ただしノードは, 親子関係を保持するように留意
-        Node<wchar_t>* now_parent = NULL;
-        if(copyee._path_nodes[0] != NULL) {
-            Node<wchar_t>* now_parent = new Node<wchar_t>(*(copyee._path_nodes[0]));
-        }
-
+        Node<wchar_t>* now_parent = _root;
         for (int i = 0; i < _max_possible_depth + 1; i++){
             _parent_pw_cache[i] = copyee._parent_pw_cache[i];
             _sampling_table[i] = copyee._sampling_table[i];
             
-            // 子から親を辿ってコピー
             // ディープコピー自体は Node 側ですでに行われていることに注意
             _path_nodes[i] = now_parent;
             if(now_parent == NULL || i >= _max_possible_depth) continue;
