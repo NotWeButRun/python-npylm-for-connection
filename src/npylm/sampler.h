@@ -11,5 +11,8 @@ namespace npylm {
 		double uniform_int(int min, int max);
 		double normal(double mean, double stddev);
 		void set_seed(int seed);
+
+		// Added fo connection
+		double calc_denominator(double d_u, double theta_u, int i);
 	}
 }

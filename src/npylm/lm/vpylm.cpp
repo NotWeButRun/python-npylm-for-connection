@@ -237,7 +237,12 @@ namespace lm {
             }
             depth++;
         }
-        assert(p > 0);
+
+        if(p <= 0) {
+            // std::cout << "Caution: p is " << p << "<= 0. p is corrected as 10e-12." << std::endl;
+            p = 10e-12;
+        }
+        // assert(p > 0);
         return p;
     }
     // 辿ったノードとそれぞれのノードからの出力確率をキャッシュしながらオーダーをサンプリング

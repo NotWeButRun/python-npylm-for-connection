@@ -16,6 +16,9 @@
 
 namespace npylm {
 	namespace lm {
+
+
+
 		template<typename T>
 		class Node { 
 			public:
@@ -486,8 +489,7 @@ namespace npylm {
 				if(_num_tables >= 2){
 					double sum_y_ui = 0;
 					for(int i = 1;i <= _num_tables - 1;i++){
-						double denominator = theta_u + d_u * i;
-						assert(denominator > 0);
+						double denominator = sampler::calc_denominator(d_u, theta_u, i);
 						sum_y_ui += sampler::bernoulli(theta_u / denominator);;
 					}
 					return sum_y_ui;
@@ -498,8 +500,7 @@ namespace npylm {
 				if(_num_tables >= 2){
 					double sum_1_y_ui = 0;
 					for(int i = 1;i <= _num_tables - 1;i++){
-						double denominator = theta_u + d_u * i;
-						assert(denominator > 0);
+						double denominator = sampler::calc_denominator(d_u, theta_u, i);
 						sum_1_y_ui += 1.0 - sampler::bernoulli(theta_u / denominator);
 					}
 					return sum_1_y_ui;

@@ -1,4 +1,5 @@
 #include <chrono>
+#include <iostream>
 #include "sampler.h"
 
 namespace npylm {
@@ -38,5 +39,20 @@ namespace npylm {
 			std::normal_distribution<double> rand(mean, stddev);
 			return rand(mt);
 		}
+
+		// Added for connection
+		// denominator の計算と計算時の警告処理
+		// Note:
+		//    分節化データで極端に文字・単語のレパートリーが少ないと denominator < 0 となることがある．
+		double calc_denominator(double d_u, double theta_u, int i){
+			double denominator = theta_u + d_u * i;
+			if(denominator > 0){
+				return denominator;
+			}
+			// std::cout << "Caution:\n  denominator is " << denominator << "<= 0. Denominator is corrected as 10e-12." << std::endl;
+			// std::cout << "  theta_u is " << theta_u << std::endl;
+			return 10e-12;
+		}
+
 	}
 }
