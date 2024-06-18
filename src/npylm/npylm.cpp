@@ -258,10 +258,10 @@ namespace npylm {
 		#endif
 
 		// Added for Connection
-		// 十倍までは許容しているがこれより長い場合についてはエラーを出す．「十倍」基準については今後変更する可能性がある．
+		// 十倍までは許容しているがこれより長い場合についてはエラーを出す．「20倍」基準については今後変更する可能性がある．
 		if (!(substr_char_t_end < _max_sentence_length)){
 			std::cout << substr_char_t_end << ">=" << _max_sentence_length << std::endl;
-			std::cout << "Inputed sentences is longer than 10*[the longest sentence in training dataset]." << std::endl;
+			std::cout << "Inputed sentences is longer than 20*[the longest sentence in training dataset]." << std::endl;
 		}
 		assert(substr_char_t_end < _max_sentence_length);
 		assert(substr_char_t_start >= 0);
