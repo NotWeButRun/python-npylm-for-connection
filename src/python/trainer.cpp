@@ -358,6 +358,7 @@ namespace npylm {
 		posterior_logprob = (
 			_model->_lattice->blocked_gibbs(sentence, segments, true)
 		);
+		sentence->split(segments);
 
 		// 事前確率の計算・分節化結果の整理
 		prior_logprob = _model->_npylm->compute_log_p_w(sentence);
