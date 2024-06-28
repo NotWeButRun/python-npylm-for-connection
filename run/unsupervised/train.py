@@ -146,6 +146,7 @@ def main():
             trainer.print_segmentation_train(10)
             print("ppl_dev: {}".format(trainer.compute_perplexity_dev()))
 
+    print(trainer.segment_without_learning("ある日のお釈迦様"))
 
 if __name__ == "__main__":
     main()
