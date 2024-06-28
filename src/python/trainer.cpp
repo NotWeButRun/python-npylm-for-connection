@@ -337,6 +337,44 @@ namespace npylm {
 		return _model->_npylm->compute_log_p_w(sentence);
 	}
 
+	// Added for connection
+	// 学習を行わずに，文の分節化結果だけをサンプリングする（ただし文ごとに）
+	boost::python::list Trainer::segment_without_learning(boost::python::str py_sentence){
+		float prior_logprob, posterior_logprob; // 分節化結果の事前確率・事後確率
+		boost::python::list segment_result;
+
+		Sentence* sentence = new Sentence(boost::python::extract<std::wstring>(py_sentence));
+
+		// // 文節位置のデータを py_segmentation から取得
+		// std::vector<int> segmentation(boost::python::len(py_segmentation));
+		// for (int i = 0; i < boost::python::len(py_segmentation); i++) {
+		// 	segmentation[i] = boost::python::extract<int>(py_segmentation[i]);
+		// }
+		// sentence->split(segmentation);
+		// return _model->_npylm->compute_log_p_w(sentence);
+
+		// 文の分節化と事後確率の計算
+		std::vector<int> segments; // 分割の一時保存用
+		posterior_logprob = (
+			_model->_lattice->blocked_gibbs(sentence, segments, true)
+		);
+
+		// 事前確率の計算・分節化結果の整理
+		prior_logprob = _model->_npylm->compute_log_p_w(sentence);
+		for (int n = 0; n < sentence->get_num_segments_without_special_tokens(); n++) {
+			std::wstring word = sentence->get_word_str_at(n + 2);
+			segment_result.append(word);
+		}
+
+		boost::python::list result;
+		result.append(segment_result);
+		result.append(prior_logprob);
+		result.append(posterior_logprob);
+
+		return result;
+		
+	}
+
 	double Trainer::compute_perplexity_train(){
 		return _compute_perplexity(_dataset->_sentence_sequences_train);
 	}

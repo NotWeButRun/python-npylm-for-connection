@@ -449,7 +449,9 @@ namespace npylm {
 	// Blocked Gibbs Samplingによる分割のサンプリング
 	// 分割結果が確率的に決まる
 	//
-	// Modified for connection: 返り値として，分割結果の事後確率を返す
+	// Modified for connection:
+	// 		返り値として，分割結果の事後確率を返す
+	// 		なお，分割結果は segments の中に内包されており，sentence->split(segments) で文を分割できる
 	double Lattice::blocked_gibbs(Sentence* sentence, std::vector<int> &segments, bool use_scaling){
 		assert(sentence->size() <= _max_sentence_length);
 		int size = sentence->size() + 1;
