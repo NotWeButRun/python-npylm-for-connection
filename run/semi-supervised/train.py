@@ -173,6 +173,19 @@ def main():
             trainer.print_segmentation_train(10)
             print("ppl_dev: {}".format(trainer.compute_perplexity_dev()))
 
+    print(trainer.segment_without_learning("ある日のお釈迦様"))
+    print(trainer.calculate_sentences_logprobs("ある日のお釈迦様", [2, 2, 4]), "before")
+    print(trainer.calculate_sentences_logprobs("ある日のお釈迦様", [2, 2, 4]), "before")
+
+    ## ここであえて読み込みを行う
+    corpus = build_corpus(args.train_filename, args.train_directory, args.semisupervised_split)
+    model = npylm.model(os.path.join(args.working_directory, "npylm.model"))
+    dataset = npylm.dataset(corpus, args.train_split, args.seed)
+    trainer = npylm.trainer(dataset, model)
+    print(trainer.segment_without_learning("ある日のお釈迦様"), "after")
+    print(trainer.calculate_sentences_logprobs("ある日のお釈迦様", [2, 2, 4]), "after")
+    print(trainer.segment_without_learning("ffffffff"), "after")
+
 
 if __name__ == "__main__":
     main()

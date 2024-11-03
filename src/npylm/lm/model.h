@@ -141,9 +141,17 @@ namespace npylm {
 				}
 				// 不要な深さのハイパーパラメータを削除
 				int num_remove = _d_m.size() - _depth - 1;
-				for(int n = 0;n < num_remove;n++){
+
+
+				// 2024-11-03 Modified
+				// Gibbs sampling の過程で一時的にd_m, theta_m の深さが
+				// 他のベクタよりも大きくなることがあることも考慮すると，
+				// pop_back で削除する処理を分けるべき			
+				for(int n = 0; n < num_remove; n++){
 					_d_m.pop_back();
 					_theta_m.pop_back();
+				}
+				for (int n = 0; n < _a_m.size() - _d_m.size(); n++){
 					_a_m.pop_back();
 					_b_m.pop_back();
 					_alpha_m.pop_back();
